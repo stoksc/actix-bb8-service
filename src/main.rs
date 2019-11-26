@@ -8,7 +8,7 @@ use bb8::Pool;
 use bb8_postgres::{tokio_postgres, PostgresConnectionManager};
 use futures::future::lazy;
 
-async fn greeting(
+async fn selector(
     db: web::Data<Pool<PostgresConnectionManager<tokio_postgres::NoTls>>>,
 ) -> Result<HttpResponse, !> {
     let mut res: i32 = 0;
@@ -56,11 +56,10 @@ fn main() -> std::io::Result<()> {
     println!("Started http server: 127.0.0.1:8000");
     HttpServer::new(move || {
         App::new()
-            .wrap(middleware::DefaultHeaders::new().header("X-Version", "0.2"))
             .wrap(middleware::Compress::default())
             .wrap(middleware::Logger::default())
             .data(pool.clone())
-            .service(web::resource("/greeting").to(greeting))
+            .service(web::resource("/select1").to(selector))
     })
     .bind("127.0.0.1:8000")?
     .workers(1)
