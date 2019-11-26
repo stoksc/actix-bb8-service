@@ -32,8 +32,8 @@ dependencies = [
  "actix 0.8.3 (git+https://github.com/actix/actix)",
  "actix-rt 1.0.0-alpha.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "actix-web 2.0.0-alpha.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "bb8 0.4.0-pre (git+https://github.com/stoksc/bb8)",
- "bb8-postgres 0.4.0-pre (git+https://github.com/stoksc/bb8)",
+ "bb8 0.4.0-pre (git+https://github.com/khuey/bb8)",
+ "bb8-postgres 0.4.0-pre (git+https://github.com/khuey/bb8)",
  "env_logger 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "jemallocator 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -529,7 +529,7 @@ dependencies = [
 [[package]]
 name = "bb8"
 version = "0.4.0-pre"
-source = "git+https://github.com/stoksc/bb8#c55a165f207d2b2813a3facef8697f3f6fa2a762"
+source = "git+https://github.com/khuey/bb8#fb610dc56dcd13443e42f5337a778c938871b789"
 dependencies = [
  "async-trait 0.1.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures-preview 0.3.0-alpha.19 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -540,10 +540,10 @@ dependencies = [
 [[package]]
 name = "bb8-postgres"
 version = "0.4.0-pre"
-source = "git+https://github.com/stoksc/bb8#c55a165f207d2b2813a3facef8697f3f6fa2a762"
+source = "git+https://github.com/khuey/bb8#fb610dc56dcd13443e42f5337a778c938871b789"
 dependencies = [
  "async-trait 0.1.19 (registry+https://github.com/rust-lang/crates.io-index)",
- "bb8 0.4.0-pre (git+https://github.com/stoksc/bb8)",
+ "bb8 0.4.0-pre (git+https://github.com/khuey/bb8)",
  "futures-preview 0.3.0-alpha.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio 0.2.0-alpha.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio-postgres 0.5.0-alpha.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2537,8 +2537,8 @@ dependencies = [
 "checksum backtrace 0.3.40 (registry+https://github.com/rust-lang/crates.io-index)" = "924c76597f0d9ca25d762c25a4d369d51267536465dc5064bdf0eb073ed477ea"
 "checksum backtrace-sys 0.1.32 (registry+https://github.com/rust-lang/crates.io-index)" = "5d6575f128516de27e3ce99689419835fce9643a9b215a14d2b5b685be018491"
 "checksum base64 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)" = "0b25d992356d2eb0ed82172f5248873db5560c4721f564b13cb5193bda5e668e"
-"checksum bb8 0.4.0-pre (git+https://github.com/stoksc/bb8)" = "<none>"
-"checksum bb8-postgres 0.4.0-pre (git+https://github.com/stoksc/bb8)" = "<none>"
+"checksum bb8 0.4.0-pre (git+https://github.com/khuey/bb8)" = "<none>"
+"checksum bb8-postgres 0.4.0-pre (git+https://github.com/khuey/bb8)" = "<none>"
 "checksum bitflags 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 "checksum block-buffer 0.7.3 (registry+https://github.com/rust-lang/crates.io-index)" = "c0940dc441f31689269e10ac70eb1002a3a1d3ad1390e030043662eb7fe4688b"
 "checksum block-padding 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)" = "fa79dedbb091f449f1f39e53edf88d5dbe95f895dae6135a8d7b881fb5af73f5"
