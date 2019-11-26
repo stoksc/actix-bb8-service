@@ -6,7 +6,7 @@ use actix_web::http::StatusCode;
 use actix_web::{body, middleware, web, App, HttpResponse, HttpServer};
 use bb8::Pool;
 use bb8_postgres::{tokio_postgres, PostgresConnectionManager};
-use std::io;
+use futures::future::lazy;
 
 async fn greeting(
     db: web::Data<Pool<PostgresConnectionManager<tokio_postgres::NoTls>>>,
@@ -19,7 +19,7 @@ async fn greeting(
                 Ok(select) => match connection.query_one(&select, &[]).await {
                     Ok(row) => {
                         res = row.get::<usize, i32>(0);
-                        Ok(((), connection))
+                        Ok((res, connection))
                     }
                     Err(e) => Err((e, connection)),
                 },
@@ -28,28 +28,30 @@ async fn greeting(
         )
         .await
     {
-        Ok(_) => Ok(HttpResponse::with_body(
+        Ok(res) => Ok(HttpResponse::with_body(
             StatusCode::OK,
             body::Body::from(format!("{}", res)),
         )),
-        Err(_) => Ok(HttpResponse::new(StatusCode::INTERNAL_SERVER_ERROR)),
+        Err(e) => {
+            println!("{}", e);
+            Ok(HttpResponse::new(StatusCode::INTERNAL_SERVER_ERROR))
+        },
     }
 }
 
-#[tokio::main]
-async fn main() -> std::io::Result<()> {
+async fn create_pool(
+    runner: &mut actix_rt::SystemRunner,
+    db_url: &str
+) -> Pool<PostgresConnectionManager<tokio_postgres::NoTls>> {
+    let pg_mgr = PostgresConnectionManager::new_from_stringlike(db_url, tokio_postgres::NoTls).unwrap();
+    runner.block_on(lazy(|_| Pool::builder().build(pg_mgr))).await.unwrap()
+}
+
+fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_server=info,actix_web=info");
     env_logger::init();
-
-    const DB_URL: &str = "postgres://postgres:docker@localhost/postgres";
-    let pg_mgr =
-        PostgresConnectionManager::new_from_stringlike(DB_URL, tokio_postgres::NoTls)
-            .map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
-
-    let pool = Pool::builder()
-        .build(pg_mgr)
-        .await
-        .map_err(|_| io::Error::from(io::ErrorKind::Other))?;
+    let mut sys = actix_rt::System::new("greeter");
+    let pool = futures::executor::block_on(create_pool(&mut sys, "postgres://postgres:docker@localhost/postgres"));
 
     println!("Started http server: 127.0.0.1:8000");
     HttpServer::new(move || {
@@ -62,5 +64,7 @@ async fn main() -> std::io::Result<()> {
     })
     .bind("127.0.0.1:8000")?
     .workers(1)
-    .run()
+    .start();
+
+    sys.run()
 }
