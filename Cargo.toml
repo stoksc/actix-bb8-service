@@ -21,5 +21,5 @@ features = ["io", "codec"]
 version = "=0.2.0-alpha.6"
 
 [patch.crates-io]
-bb8 = { git = "https://github.com/stoksc/bb8", branch = "master" }
-bb8-postgres = { git = "https://github.com/stoksc/bb8", branch = "master" }
+bb8 = { git = "https://github.com/stoksc/bb8", branch = "actix-rt" }
+bb8-postgres = { git = "https://github.com/stoksc/bb8", branch = "actix-rt" }
