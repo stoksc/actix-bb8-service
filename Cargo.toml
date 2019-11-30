@@ -5,11 +5,11 @@ authors = ["stoked_"]
 edition = "2018"
 
 [dependencies]
-actix = { git = "https://github.com/actix/actix", branch = "master" }
+actix = "0.8.3"
 actix-web = "2.0.0-alpha.1"
 actix-rt = "1.0.0-alpha.1"
-bb8 = { git = "https://github.com/khuey/bb8", branch = "master" }
-bb8-postgres = { git = "https://github.com/khuey/bb8", branch = "master" }
+bb8 = "0.4.0-pre"
+bb8-postgres = "0.4.0-pre"
 jemallocator = "0.3.2"
 tokio-executor = "0.2.0-alpha.6"
 env_logger = "0.7.1"
@@ -19,3 +19,7 @@ futures = "0.3.1"
 default-features = false
 features = ["io", "codec"]
 version = "=0.2.0-alpha.6"
+
+[patch.crates-io]
+bb8 = { git = "https://github.com/stoksc/bb8", branch = "master" }
+bb8-postgres = { git = "https://github.com/stoksc/bb8", branch = "master" }

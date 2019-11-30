@@ -14,12 +14,12 @@ async fn selector(
     match db
         .get_ref()
         .run(
-            async move |connection| match connection.prepare("select 1").await {
-                Ok(select) => match connection.query_one(&select, &[]).await {
-                    Ok(row) => Ok((row.get::<usize, i32>(0), connection)),
-                    Err(e) => Err((e, connection)),
+            async move |cl| match cl.prepare("select 1").await {
+                Ok(select) => match cl.query_one(&select, &[]).await {
+                    Ok(row) => Ok((row.get::<usize, i32>(0), cl)),
+                    Err(e) => Err((e, cl)),
                 },
-                Err(e) => Err((e, connection)),
+                Err(e) => Err((e, cl)),
             },
         )
         .await {
@@ -56,7 +56,6 @@ fn main() -> std::io::Result<()> {
         "postgres://postgres:docker@localhost/postgres",
     ));
 
-    println!("Started http server: 127.0.0.1:8000");
     HttpServer::new(move || {
         App::new()
             .wrap(middleware::Compress::default())
